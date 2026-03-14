@@ -19,7 +19,7 @@ contract Calculator{
     }
 
     function setScientificCalculator(address _address)public onlyOwner{
-        scientificCalculatorAddress = _address;
+        scientificCalculatorAddress = _address;     //注意这个用法
         }
 
     function add(uint256 a, uint256 b)public pure returns(uint256){
@@ -47,7 +47,7 @@ contract Calculator{
 
     ScientificCalculator scientificCalc = ScientificCalculator(scientificCalculatorAddress);
 
-    //external call 
+    //external call 注意是怎么调用的，和前面是怎么配合的
     uint256 result = scientificCalc.power(base, exponent);
 
     return result;
@@ -58,7 +58,7 @@ contract Calculator{
         require(number >= 0 , "Cannot calculate square root of negative nmber");
 
         bytes memory data = abi.encodeWithSignature("squareRoot(int256)", number);
-        (bool success, bytes memory returnData) = scientificCalculatorAddress.call(data);
+        (bool success, bytes memory returnData) = scientificCalculatorAddress.call(data); 
         require(success, "External call failed");
         uint256 result = abi.decode(returnData, (uint256));
         return result;
